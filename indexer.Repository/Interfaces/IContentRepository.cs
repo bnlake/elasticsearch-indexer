@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using indexer.Domain.Models;
 
 namespace indexer.Repository;
 
 public interface IContentRepository
 {
-    Content GetContent(string id);
-    ICollection<Content> GetAllContent();
+    Task<Content> GetContentAsync(int id);
+    Task<IEnumerable<Content>> GetAllContentAsync();
 }

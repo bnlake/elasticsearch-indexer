@@ -1,17 +1,26 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using indexer.Domain.Models;
+using indexer.Repository.Repositories.UCR;
 
 namespace indexer.Repository.Repositories;
 
 public class UCRRepository : IContentRepository
 {
-    public ICollection<Content> GetAllContent()
+    private readonly UCRContext context;
+
+    public UCRRepository(UCRContext context)
     {
-        throw new System.NotImplementedException();
+        this.context = context;
     }
 
-    public Content GetContent(string id)
+    public Task<IEnumerable<Content>> GetAllContentAsync()
     {
-        throw new System.NotImplementedException();
+        return Task.FromResult(new List<Content>() as IEnumerable<Content>);
+    }
+
+    public async Task<Content> GetContentAsync(int id)
+    {
+        return await context.Contents.FindAsync(id) ?? throw new KeyNotFoundException();
     }
 }
