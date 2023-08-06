@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "indexer.Repository.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "indexer.Domain", "indexer.Domain\indexer.Domain.csproj", "{B542BAC9-53FE-488F-A286-B8C9CB7AF536}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "indexer.Application", "indexer.Application\indexer.Application.csproj", "{974C3044-9323-4CD6-8AD3-6AE6C5BD42FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "indexer.Application.Tests", "indexer.Application.Tests\indexer.Application.Tests.csproj", "{F143F0EB-9F07-470E-9DEA-16E66BD20E5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{B542BAC9-53FE-488F-A286-B8C9CB7AF536}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B542BAC9-53FE-488F-A286-B8C9CB7AF536}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B542BAC9-53FE-488F-A286-B8C9CB7AF536}.Release|Any CPU.Build.0 = Release|Any CPU
+		{974C3044-9323-4CD6-8AD3-6AE6C5BD42FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{974C3044-9323-4CD6-8AD3-6AE6C5BD42FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{974C3044-9323-4CD6-8AD3-6AE6C5BD42FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{974C3044-9323-4CD6-8AD3-6AE6C5BD42FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F143F0EB-9F07-470E-9DEA-16E66BD20E5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F143F0EB-9F07-470E-9DEA-16E66BD20E5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F143F0EB-9F07-470E-9DEA-16E66BD20E5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F143F0EB-9F07-470E-9DEA-16E66BD20E5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
