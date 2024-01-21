@@ -1,3 +1,5 @@
+.env
+
 *.swp
 *.*~
 project.lock.json
@@ -6,7 +8,10 @@ project.lock.json
 nupkg/
 
 # Visual Studio Code
-.vscode/
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/settings.json
 
 # Rider
 .idea/
