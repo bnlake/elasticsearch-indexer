@@ -17,7 +17,6 @@ public class UCRRepositoryTests : IDisposable
     [OneTimeSetUp]
     public void SetUp()
     {
-
         var options = new DbContextOptionsBuilder<UCRContext>()
         .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
         .Options;

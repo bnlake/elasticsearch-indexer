@@ -1,12 +1,11 @@
 using indexer.Application;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
-        services.AddHostedService<Worker>();
+        services.AddIndexerApplication();
     })
     .Build();
 
-host.Run();
+await host.RunAsync();

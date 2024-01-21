@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using indexer.Application.Interfaces;
@@ -9,8 +10,10 @@ public class IndexAllContentJob(SemaphoreSlim Semaphore, ILogger<IndexAllContent
 {
     public async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        await Semaphore.WaitAsync(cancellationToken);
+        Logger.LogInformation("Index all content job started");
 
-        Semaphore.Release();
+        await Task.Delay(TimeSpan.FromSeconds(2));
+
+        Logger.LogInformation("Index all content job completed");
     }
 }

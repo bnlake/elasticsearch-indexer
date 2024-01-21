@@ -15,7 +15,7 @@ public class IndexAllContentJobTests
     [TearDown]
     public void TearDown()
     {
-        semaphore = null;
+        semaphore.Dispose();
     }
 
     [Test]
