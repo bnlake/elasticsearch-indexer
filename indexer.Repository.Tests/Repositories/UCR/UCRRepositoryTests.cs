@@ -33,8 +33,6 @@ public class UCRRepositoryTests : IDisposable
         context.Dispose();
     }
 
-
-
     [TestCase(1, "Headache")]
     public async Task GetKnownContent_Succeeds(int id, string name)
     {

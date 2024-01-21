@@ -5,15 +5,8 @@ using indexer.Repository.Repositories.UCR;
 
 namespace indexer.Repository.Repositories;
 
-public class UCRRepository : IContentRepository
+public class UCRRepository(UCRContext Context) : IContentRepository
 {
-    private readonly UCRContext context;
-
-    public UCRRepository(UCRContext context)
-    {
-        this.context = context;
-    }
-
     public Task<IEnumerable<Content>> GetAllContentAsync()
     {
         return Task.FromResult(new List<Content>() as IEnumerable<Content>);
@@ -21,6 +14,6 @@ public class UCRRepository : IContentRepository
 
     public async Task<Content> GetContentAsync(int id)
     {
-        return await context.Contents.FindAsync(id) ?? throw new KeyNotFoundException();
+        return await Context.Contents.FindAsync(id) ?? throw new KeyNotFoundException();
     }
 }

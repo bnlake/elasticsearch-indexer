@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace indexer.Repository.Repositories.UCR;
 
-public class UCRContext : DbContext
+public class UCRContext(DbContextOptions<UCRContext> options) : DbContext(options)
 {
-    public UCRContext(DbContextOptions<UCRContext> options) : base(options) { }
-
     public DbSet<Content> Contents { get; set; }
 }
