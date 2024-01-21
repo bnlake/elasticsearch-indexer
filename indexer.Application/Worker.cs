@@ -1,3 +1,4 @@
+using indexer.Application.Interfaces;
 using indexer.Application.Jobs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,7 +19,7 @@ public class Worker(ILogger<Worker> Logger, IServiceProvider Provider) : Backgro
         var scope = Provider.CreateScope();
 
         Logger.LogTrace("Getting required service");
-        var job = scope.ServiceProvider.GetRequiredService<IndexAllContentJob>();
+        var job = scope.ServiceProvider.GetRequiredService<IJob<IndexAllContentJob>>();
 
         Logger.LogTrace("Invoking execute method on job");
         await job.ExecuteAsync(stoppingToken);

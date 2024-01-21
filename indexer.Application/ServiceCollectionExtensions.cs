@@ -1,3 +1,4 @@
+using indexer.Application.Interfaces;
 using indexer.Application.Jobs;
 using indexer.Repository;
 using indexer.Repository.Repositories;
@@ -25,7 +26,7 @@ public static class ServiceCollectionExtensions
         });
         services.AddScoped<IContentRepository, UCRRepository>();
 
-        services.AddScoped<IndexAllContentJob>();
+        services.AddScoped<IJob<IndexAllContentJob>, IndexAllContentJob>();
 
         return services;
     }
