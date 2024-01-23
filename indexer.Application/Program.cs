@@ -1,16 +1,11 @@
 using indexer.Application;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+var builder = Host.CreateApplicationBuilder();
 
-IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
-    {
-        services.AddIndexerApplication();
-    })
-    .UseSerilog((context, configuration) =>
-    {
-        configuration.ReadFrom.Configuration(context.Configuration).WriteTo.Console();
-    })
-    .Build();
+builder.Services.AddIndexerApplication(builder.Configuration);
+builder.Services.AddSerilog(config => config.ReadFrom.Configuration(builder.Configuration).WriteTo.Console());
+
+var host = builder.Build();
 
 await host.RunAsync();
