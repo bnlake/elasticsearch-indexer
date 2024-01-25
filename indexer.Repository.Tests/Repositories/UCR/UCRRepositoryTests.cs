@@ -26,6 +26,12 @@ public class UCRRepositoryTests : IDisposable
         repository = new(context);
     }
 
+    [TearDown]
+    public void AfterEach()
+    {
+        context.Contents.RemoveRange(context.Contents);
+    }
+
     [OneTimeTearDown]
     public void Dispose()
     {
@@ -53,5 +59,22 @@ public class UCRRepositoryTests : IDisposable
         var result = Assert.ThrowsAsync<KeyNotFoundException>(async () => await repository.GetContentAsync(948));
 
         Assert.That(result, Is.Not.Null);
+    }
+
+    [Test]
+    public async Task GetAllContentAsync_Succeeds()
+    {
+        var expectedResults = new List<Content> { new() { Id = 1, Name = "First" }, new() { Id = 2, Name = "Second" } };
+        context.Contents.AddRange(expectedResults);
+        context.SaveChanges();
+
+        var result = await repository.GetAllContentAsync();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Count, Is.EqualTo(expectedResults.Count));
+            Assert.That(result[0], Is.EqualTo(expectedResults[0]));
+            Assert.That(result[1], Is.EqualTo(expectedResults[1]));
+        });
     }
 }

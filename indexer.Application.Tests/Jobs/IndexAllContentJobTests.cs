@@ -1,4 +1,5 @@
 using indexer.Application.Jobs;
+using indexer.Repository;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Threading;
@@ -9,6 +10,7 @@ namespace indexer.Application.Tests;
 [TestFixture]
 public class IndexAllContentJobTests
 {
+    private readonly Mock<IContentRepository> mockRepository = new();
     private readonly Mock<ILogger<IndexAllContentJob>> mockLogger = new();
     private SemaphoreSlim? semaphore;
 
@@ -23,7 +25,7 @@ public class IndexAllContentJobTests
     {
         semaphore = new SemaphoreSlim(1);
 
-        IndexAllContentJob job = new(semaphore, mockLogger.Object);
+        IndexAllContentJob job = new(mockRepository.Object, semaphore, mockLogger.Object);
 
         Assert.That(job, Is.Not.Null);
     }
@@ -33,7 +35,7 @@ public class IndexAllContentJobTests
     {
         var cancellationSource = new CancellationTokenSource();
         var semaphore = new SemaphoreSlim(1);
-        IndexAllContentJob job = new(semaphore, mockLogger.Object);
+        IndexAllContentJob job = new(mockRepository.Object, semaphore, mockLogger.Object);
 
         await job.ExecuteAsync(cancellationSource.Token);
 

@@ -6,7 +6,6 @@ using indexer.Repository.Repositories.UCR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Threading;
 
 namespace indexer.Application;
@@ -18,15 +17,8 @@ public static class ServiceCollectionExtensions
         services.AddHostedService<Worker>();
         services.AddSingleton<SemaphoreSlim>(new SemaphoreSlim(10));
 
-        services.AddScoped<UCRContext>((_) =>
-        {
-            var options = new DbContextOptionsBuilder<UCRContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-                .Options;
-            return new UCRContext(options);
-        });
+        services.AddDbContext<UCRContext>(options => options.UseNpgsql(configuration.GetConnectionString(UCRContext.DatabaseAlias)));
         services.AddScoped<IContentRepository, UCRRepository>();
-        services.AddDbContext<UCRContext>(options => options.UseNpgsql(configuration.GetConnectionString("UCRConnection")));
 
         services.AddScoped<IJob<IndexAllContentJob>, IndexAllContentJob>();
 

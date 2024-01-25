@@ -7,5 +7,5 @@ namespace indexer.Repository;
 public interface IContentRepository
 {
     Task<Content> GetContentAsync(int id);
-    Task<IEnumerable<Content>> GetAllContentAsync();
+    Task<List<Content>> GetAllContentAsync();
 }
