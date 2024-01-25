@@ -6,6 +6,8 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_PASSWORD: SuperU$eR123!
+      POSTGRES_USER: localdev
+      POSTGRES_PASSWORD: localDev
+      POSTGRES_DB: UCR
     volumes:
       - ./.init:/docker-entrypoint-initdb.d
