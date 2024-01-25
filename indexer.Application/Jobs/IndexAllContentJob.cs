@@ -1,13 +1,13 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using indexer.Application.Interfaces;
 using indexer.Repository;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace indexer.Application.Jobs;
 
-public class IndexAllContentJob(IContentRepository Repository, SemaphoreSlim Semaphore, ILogger<IndexAllContentJob> Logger) : IJob<IndexAllContentJob>
+public class IndexAllContentJob(IContentRepository Repository, ILogger<IndexAllContentJob> Logger) : IJob<IndexAllContentJob>
 {
     public async Task ExecuteAsync(CancellationToken cancellationToken)
     {

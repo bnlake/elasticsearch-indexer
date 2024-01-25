@@ -1,7 +1,9 @@
 using indexer.Application.Jobs;
+using indexer.Domain.Models;
 using indexer.Repository;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,33 +14,26 @@ public class IndexAllContentJobTests
 {
     private readonly Mock<IContentRepository> mockRepository = new();
     private readonly Mock<ILogger<IndexAllContentJob>> mockLogger = new();
-    private SemaphoreSlim? semaphore;
+
+    [OneTimeSetUp]
+    public void BeforeAll()
+    {
+        mockRepository.Setup(m => m.GetAllContentAsync().Result).Returns(new List<Content>() { new Content { Id = 1, Name = "First Document" } });
+    }
 
     [TearDown]
     public void TearDown()
     {
-        semaphore.Dispose();
+        // semaphore.Dispose();
     }
 
     [Test]
-    public void JobInitializes_Succeeds()
+    public async Task ExecuteAsync_CallsRepository_Succeeds()
     {
-        semaphore = new SemaphoreSlim(1);
+        var job = new IndexAllContentJob(mockRepository.Object, mockLogger.Object);
 
-        IndexAllContentJob job = new(mockRepository.Object, semaphore, mockLogger.Object);
+        await job.ExecuteAsync(new CancellationToken());
 
-        Assert.That(job, Is.Not.Null);
-    }
-
-    [Test]
-    public async Task ReleasesLock_Succeeds()
-    {
-        var cancellationSource = new CancellationTokenSource();
-        var semaphore = new SemaphoreSlim(1);
-        IndexAllContentJob job = new(mockRepository.Object, semaphore, mockLogger.Object);
-
-        await job.ExecuteAsync(cancellationSource.Token);
-
-        Assert.That(semaphore.CurrentCount, Is.EqualTo(1));
+        mockRepository.Verify(r => r.GetAllContentAsync(), Times.Once);
     }
 }
