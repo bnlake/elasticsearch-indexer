@@ -68,7 +68,11 @@ public class UCRRepositoryTests : IDisposable
         context.Contents.AddRange(expectedResults);
         context.SaveChanges();
 
-        var result = await repository.GetAllContentAsync();
+        List<Content> result = [];
+        await foreach (var content in repository.GetAllContentAsync())
+        {
+            result.Add(content);
+        }
 
         Assert.Multiple(() =>
         {

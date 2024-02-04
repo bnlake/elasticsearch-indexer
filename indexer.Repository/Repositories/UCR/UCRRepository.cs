@@ -2,15 +2,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using indexer.Domain.Models;
 using indexer.Repository.Repositories.UCR;
-using Microsoft.EntityFrameworkCore;
 
 namespace indexer.Repository.Repositories;
 
 public class UCRRepository(UCRContext Context) : IContentRepository
 {
-    public Task<List<Content>> GetAllContentAsync()
+    public IAsyncEnumerable<Content> GetAllContentAsync()
     {
-        return Context.Contents.ToListAsync();
+        return Context.Contents.AsAsyncEnumerable();
     }
 
     public async Task<Content> GetContentAsync(int id)
