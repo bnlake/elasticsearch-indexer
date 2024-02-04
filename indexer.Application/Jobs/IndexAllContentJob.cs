@@ -1,5 +1,6 @@
 using indexer.Application.Interfaces;
 using indexer.Application.Models;
+using indexer.Domain.Models;
 using indexer.Repository;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -25,21 +26,29 @@ public class IndexAllContentJob(IContentRepository Repository,
         if (!ESService.CheckIndexExists(indexName)) await ESService.CreateIndexAsync(indexName);
 
         List<Task> tasks = [];
+        List<(Content, Exception)> failedContent = [];
 
         Logger.LogTrace("Beginning async foreach over all returned content");
         await foreach (var content in Repository.GetAllContentAsync())
         {
-            tasks.Add(indexDocumentProcesser.AddContent(content, cancellationToken));
+            try
+            {
+                var task = indexDocumentProcesser.AddContent(content, cancellationToken);
+                tasks.Add(task);
+            }
+            catch (Exception ex)
+            {
+                failedContent.Add((content, ex));
+            }
         }
 
         await Task.WhenAll(tasks);
-        Logger.LogInformation("Total content processed: {totalCount}", tasks.Count);
 
         var completedTasksCount = tasks.Count(t => t.IsCompletedSuccessfully);
         Logger.LogInformation("Successful indexing count: {successfulCount}", completedTasksCount);
 
         var faultedTasksCount = tasks.Count(t => t.IsFaulted);
-        Logger.LogInformation("Failed indexing count: {faultedCount}", faultedTasksCount);
+        Logger.LogInformation("Failed indexing count: {faultedCount}", failedContent.Count);
 
         Logger.LogInformation("Index all content job completed");
     }
